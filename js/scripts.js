@@ -5,6 +5,7 @@ window.addEventListener('load', function () {
             this.box = document.querySelector(selector);
             this.time = initialTime;
             this.interval = null;
+            this.start();
         }
 
         start() {
@@ -39,7 +40,7 @@ window.addEventListener('load', function () {
             this.hs = this.time % 3600;
             this.m = parseInt(this.hs / 60);
             this.s = this.hs % 60;
-            this.box.innerHTML = `${this.h}:${this.m}:${this.s}`;
+
         }
 
         /* stop(){
@@ -48,23 +49,87 @@ window.addEventListener('load', function () {
         } */
     }
 
+
     class WordsTimer extends FormatTimer {
+
         render() {
             super.render();
-
-
+            let wordH = this.wordsHours(this.h)
+            let wordM = this.wordsMinutes(this.m)
+            let wordS = this.wordsSeconds(this.s)
+            this.box.innerHTML = `${this.h} ${wordH}:${this.m} ${wordM}:${this.s} ${wordS}`;
 
         }
+
+
+        //Не дай Бог, кому увидеть такой код)
+        wordsHours(hours) {
+            let word;
+            let numbers = [2, 3, 4];
+            let numberOver = [5, 6, 7, 8, 9]
+
+
+            if (hours >= 5 && hours <= 19) {
+                word = 'часов'
+            } else if (hours % 10 === 0) {
+                word = 'часов'
+            } else if (numbers.includes(hours % 10)) {
+                word = 'часа'
+            } else if (numberOver.includes(hours % 10)) {
+                word = 'часов'
+            } else {
+                word = 'час'
+            }
+            return word;
+        }
+
+        wordsMinutes(minutes) {
+            let word;
+            let numbers = [2, 3, 4];
+            let numberOver = [5, 6, 7, 8, 9]
+
+
+            if (minutes >= 5 && minutes <= 19) {
+                word = 'минут'
+            } else if (minutes % 10 === 0) {
+                word = 'минут'
+            } else if (numbers.includes(minutes % 10)) {
+                word = 'минуты'
+            } else if (numberOver.includes(minutes % 10)) {
+                word = 'минут'
+            } else {
+                word = 'минута'
+            }
+            return word;
+        }
+
+        wordsSeconds(seconds) {
+            let word;
+            let numbers = [2, 3, 4];
+            let numberOver = [5, 6, 7, 8, 9]
+
+            if (seconds >= 5 && seconds <= 19) {
+                word = 'секунд'
+            } else if (seconds % 10 === 0) {
+                word = 'секунд'
+            } else if (numbers.includes(seconds % 10)) {
+                word = 'секунды'
+            } else if (numberOver.includes(seconds % 10)) {
+                word = 'секунд'
+            } else {
+                word = 'секунда'
+            }
+            return word;
+        }
+
 
     }
 
     let t1 = new Timer('.timer1', 10);
-    t1.start();
-    console.log(t1);
 
-    let t2 = new FormatTimer('.timer2', 5000);
-    t2.start();
-    console.log(t2);
+
+    let t2 = new WordsTimer('.timer2', 55000);
+
 
     let btnSale = document.querySelector('.getSale');
 
@@ -75,35 +140,3 @@ window.addEventListener('load', function () {
     });
 });
 
-class Cat {
-    constructor(type) {
-        this.type = type;
-    }
-
-    findEat() {
-        while (this.hungry) {
-            this.find();
-            this.run();
-        }
-    }
-}
-
-class HomeCat extends Cat {
-    constructor(type, name) {
-        super(type);
-        this.name = name;
-    }
-
-    findEat() {
-        while (this.hungry) {
-            this.findOwner();
-            this.say('myayayayyayayaya');
-
-            if (this.daysWithoutEat > 3) {
-                super.findEat();
-            }
-        }
-    }
-}
-
-new HomeCat(1, 'a');
